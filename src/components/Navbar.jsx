@@ -5,14 +5,14 @@ import Link from 'next/link';
 import User from '../../public/assets/User.png'
 const Navbar = () => {
     return (
-        <nav className='flex justify-between items-center'>
+        <nav className='flex justify-between items-center px-6 py-4 bg-white'>
             {/* leftside */}
             <div>
-                <ul>
-                    <li><Link href={''}>Home</Link></li>
-                    <li><Link href={''}>Destinations</Link></li>
-                    <li><Link href={''}>My Bookings</Link></li>
-                    <li><Link href={''}>Admin</Link></li>
+                <ul className='flex gap-8'>
+                    <li><Link href={'/'}>Home</Link></li>
+                    <li><Link href={'/destinations'}>Destinations</Link></li>
+                    <li><Link href={'/my-bookings'}>My Bookings</Link></li>
+                    <li><Link href={'/admin'}>Admin</Link></li>
                 </ul>
             </div>
 
@@ -22,14 +22,14 @@ const Navbar = () => {
             </div>
 
             {/* rightside */}
-            <div>
-                <ul className='flex'>
-                    <div className='flex'>
-                        <Image alt='user' src={User} width={16} height={16}></Image>
-                    <li><Link href={''}>Profile</Link></li>
-                    </div>
-                    <li><Link href={''}>Login</Link></li>
-                    <li><Link href={''}>Sign Up</Link></li>
+            <div >
+                <ul className='flex gap-8'>
+                    <li className='flex gap-1 items-center'>
+                        <Image alt='user' src={User} width={16} height={16} />
+                        <Link href={'/profile'}>Profile</Link>
+                    </li>
+                    <li><Link href={'/login'}>Login</Link></li>
+                    <li><Link href={'/signup'}>Sign Up</Link></li>
                 </ul>
             </div>
         </nav>
