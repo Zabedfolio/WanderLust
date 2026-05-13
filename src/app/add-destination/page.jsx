@@ -14,15 +14,24 @@ import { RiDeleteBinLine } from "react-icons/ri";
 const CATEGORIES = ["Beach", "Mountain", "City", "Adventure", "Cultural", "Luxury"];
 
 const AddDestinationPage = () => {
+
+    const onSubmit =(e)=>{
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+        const destination = Object.fromEntries(formData.entries());
+        console.log(destination)
+    }
+
     return (
-        <div className="min-h-screen bg-white py-10 px-6 sm:px-10">
+        <div  className="min-h-screen bg-white py-10 px-6 sm:px-10">
             <div className="max-w-3xl mx-auto">
                 <h1 className="text-3xl sm:text-4xl font-light text-gray-900 mb-10">
                 Add New Travel Package
             </h1>
 
             <div className="max-w-2xl border border-gray-200 rounded-lg p-6 sm:p-8">
-                <form className="space-y-5">
+                <form onSubmit={onSubmit} className="space-y-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
                         {/* Destination Name */}
