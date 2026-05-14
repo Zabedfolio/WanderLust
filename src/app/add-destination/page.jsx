@@ -7,13 +7,14 @@ import {
     TextArea,
     TextField,
 } from "@heroui/react";
-import React from "react";
+import React, { useState } from "react";
 import { LiaSaveSolid } from "react-icons/lia";
 import { RiDeleteBinLine } from "react-icons/ri";
 
 const CATEGORIES = ["Beach", "Mountain", "City", "Adventure", "Cultural", "Luxury"];
 
 const AddDestinationPage = () => {
+    const [formKey, setFormKey] = useState(0);
 
     const onSubmit = async(e)=>{
         e.preventDefault();
@@ -31,6 +32,8 @@ const AddDestinationPage = () => {
         })
         const data = await res.json();
         console.log(data);
+
+        setFormKey(prev => prev + 1);
     }
 
     return (
@@ -41,7 +44,7 @@ const AddDestinationPage = () => {
             </h1>
 
             <div className="max-w-2xl border border-gray-200 rounded-lg p-6 sm:p-8">
-                <form onSubmit={onSubmit} className="space-y-5">
+                <form key={formKey} onSubmit={onSubmit} className="space-y-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
                         {/* Destination Name */}
@@ -147,7 +150,6 @@ const AddDestinationPage = () => {
                             className="flex items-center gap-2 border border-red-400 text-red-500 hover:bg-red-50 px-5 py-2 rounded text-sm transition-colors"
                         >
                             <RiDeleteBinLine />
-
                             Cancel
                         </button>
                         <button
