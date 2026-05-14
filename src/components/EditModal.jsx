@@ -7,27 +7,48 @@ import { RiDeleteBinLine } from "react-icons/ri";
 
 const CATEGORIES = ["Beach", "Mountain", "City", "Adventure", "Cultural", "Luxury"];
 
-export function EditModalForm() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [highlights, setHighlights] = useState([""]);
+export function EditModalForm({ destination }) {
 
-    const addHighlight = () => setHighlights((prev) => [...prev, ""]);
+    const {
+        _id,
+        destinationName,
+        country,
+        price,
+        duration,
+        imageUrl,
+        description,
+        departureDate,
+        category,
+        highlights,
+    } = destination;
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [highlightsList, setHighlightsList] = useState(highlights?.length > 0 ? highlights : [""]);
+
+    const addHighlight = () => setHighlightsList((prev) => [...prev, ""]);
 
     const removeHighlight = (index) =>
-        setHighlights((prev) => prev.filter((_, i) => i !== index));
+        setHighlightsList((prev) => prev.filter((_, i) => i !== index));
 
     const updateHighlight = (index, value) =>
-        setHighlights((prev) => prev.map((h, i) => (i === index ? value : h)));
+        setHighlightsList((prev) => prev.map((h, i) => (i === index ? value : h)));
 
     const onSubmit = async (e) => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-        const destination = Object.fromEntries(formData.entries());
-        destination.highlights = highlights.filter((h) => h.trim() !== "");
-        console.log(destination);
+        const updatedDestination = Object.fromEntries(formData.entries());
+        updatedDestination.highlights = highlightsList.filter((h) => h.trim() !== "");
+        console.log(updatedDestination);
 
-        setHighlights([""]);
+        const res = await fetch(`http://localhost:5000/destination/${_id}`, {
+            method: "PATCH",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(updatedDestination),
+        });
+        const data = await res.json();
+        console.log(data);
+
         setIsOpen(false);
     };
 
@@ -36,10 +57,10 @@ export function EditModalForm() {
             {/* Trigger Button */}
             <button
                 onClick={() => setIsOpen(true)}
-                className="flex items-center gap-2 border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded text-sm transition-colors"
+                className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-3.5 rounded text-sm transition-colors"
             >
                 <FiEdit2 className="text-sm" />
-                Edit
+                <span className="hidden sm:inline">Edit</span>
             </button>
 
             {/* Modal Overlay */}
@@ -69,6 +90,7 @@ export function EditModalForm() {
                                         <input
                                             name="destinationName"
                                             required
+                                            defaultValue={destinationName}
                                             placeholder="Bali Paradise"
                                             className="w-full border border-gray-200 bg-gray-50 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-400 text-gray-800 placeholder-gray-400"
                                         />
@@ -80,6 +102,7 @@ export function EditModalForm() {
                                         <input
                                             name="country"
                                             required
+                                            defaultValue={country}
                                             placeholder="Indonesia"
                                             className="w-full border border-gray-200 bg-gray-50 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-400 text-gray-800 placeholder-gray-400"
                                         />
@@ -91,7 +114,7 @@ export function EditModalForm() {
                                         <select
                                             name="category"
                                             required
-                                            defaultValue=""
+                                            defaultValue={category || ""}
                                             className="w-full border border-gray-200 bg-gray-50 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-400 text-gray-800"
                                         >
                                             <option value="" disabled>Select category</option>
@@ -108,6 +131,7 @@ export function EditModalForm() {
                                             name="price"
                                             type="number"
                                             required
+                                            defaultValue={price}
                                             placeholder="e.g., 1299"
                                             className="w-full border border-gray-200 bg-gray-50 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-400 text-gray-800 placeholder-gray-400"
                                         />
@@ -119,6 +143,7 @@ export function EditModalForm() {
                                         <input
                                             name="duration"
                                             required
+                                            defaultValue={duration}
                                             placeholder="e.g., 7 Days/6 Nights"
                                             className="w-full border border-gray-200 bg-gray-50 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-400 text-gray-800 placeholder-gray-400"
                                         />
@@ -131,6 +156,7 @@ export function EditModalForm() {
                                             name="departureDate"
                                             type="date"
                                             required
+                                            defaultValue={departureDate}
                                             className="w-full border border-gray-200 bg-gray-50 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-400 text-gray-800"
                                         />
                                     </div>
@@ -142,6 +168,7 @@ export function EditModalForm() {
                                             name="imageUrl"
                                             type="url"
                                             required
+                                            defaultValue={imageUrl}
                                             placeholder="https://example.com/image.jpg"
                                             className="w-full border border-gray-200 bg-gray-50 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-400 text-gray-800 placeholder-gray-400"
                                         />
@@ -153,6 +180,7 @@ export function EditModalForm() {
                                         <textarea
                                             name="description"
                                             required
+                                            defaultValue={description}
                                             placeholder="Describe the travel experience..."
                                             className="w-full border border-gray-200 bg-gray-50 rounded px-3 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-400 text-gray-800 placeholder-gray-400 min-h-[120px] resize-y"
                                         />
@@ -161,7 +189,7 @@ export function EditModalForm() {
                                     {/* Highlights */}
                                     <div className="col-span-1 sm:col-span-2 flex flex-col gap-2">
                                         <label className="text-sm text-gray-700">Highlights</label>
-                                        {highlights.map((highlight, index) => (
+                                        {highlightsList.map((highlight, index) => (
                                             <div key={index} className="flex items-center gap-2">
                                                 <input
                                                     value={highlight}
@@ -169,7 +197,7 @@ export function EditModalForm() {
                                                     placeholder="e.g., Luxury beachfront accommodation"
                                                     className="w-full border border-gray-200 bg-gray-50 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-400 text-gray-800 placeholder-gray-400"
                                                 />
-                                                {highlights.length > 1 && (
+                                                {highlightsList.length > 1 && (
                                                     <button
                                                         type="button"
                                                         onClick={() => removeHighlight(index)}

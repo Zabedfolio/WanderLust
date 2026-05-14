@@ -1,9 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import { FiArrowLeft, FiEdit2, FiTrash2, FiMapPin, FiCalendar } from 'react-icons/fi';
+import { FiArrowLeft, FiTrash2, FiMapPin, FiCalendar } from 'react-icons/fi';
 import { FaStar } from 'react-icons/fa';
 import { BsCheckCircle } from 'react-icons/bs';
 import { EditModalForm } from '@/components/EditModal';
+import { AlertDialog, Button } from '@heroui/react';
 
 const DestinationDetailsPage = async ({ params }) => {
     const { id } = await params;
@@ -26,25 +27,52 @@ const DestinationDetailsPage = async ({ params }) => {
     return (
         <div className="min-h-screen bg-white">
             {/* Top Nav */}
-            <div className="flex items-center justify-between px-6 sm:px-10 pt-4 pb-7">
+            <div className="flex items-center justify-between px-4 sm:px-10 pt-4 pb-5">
                 <Link
                     href="/destinations"
-                    className="flex items-center gap-2 text-gray-500 hover:text-gray-800 text-sm transition-colors"
+                    className="flex items-center gap-2 bg-gray-500 hover:bg-gray-400 text-white px-4 py-2 rounded text-sm transition-colors"
                 >
                     <FiArrowLeft />
-                    Back to Destinations
+                    <span className="hidden sm:inline">Back to Destinations</span>
                 </Link>
-                <div className="flex items-center gap-3">
-                    <EditModalForm></EditModalForm>
-                    <button className="flex items-center gap-2 border border-red-300 text-red-500 hover:bg-red-50 px-4 py-2 rounded text-sm transition-colors">
-                        <FiTrash2 className="text-sm" />
-                        Cancel
-                    </button>
+                <div className="flex items-center gap-2">
+                    <EditModalForm destination={destination} />
+                    <AlertDialog>
+                        <Button variant="danger" className="rounded flex items-center gap-2">
+                            <FiTrash2 />
+                            <span className="hidden sm:inline">Delete</span>
+                        </Button>
+                        <AlertDialog.Backdrop>
+                            <AlertDialog.Container>
+                                <AlertDialog.Dialog className="sm:max-w-[400px] rounded-none">
+                                    <AlertDialog.CloseTrigger />
+                                    <AlertDialog.Header>
+                                        <AlertDialog.Icon status="danger" />
+                                        <AlertDialog.Heading>Delete permanently?</AlertDialog.Heading>
+                                    </AlertDialog.Header>
+                                    <AlertDialog.Body>
+                                        <p>
+                                            This will permanently delete <strong>{destinationName}</strong> and all of its
+                                            data. This action cannot be undone.
+                                        </p>
+                                    </AlertDialog.Body>
+                                    <AlertDialog.Footer>
+                                        <Button slot="close" variant="tertiary" className="rounded-none">
+                                            Cancel
+                                        </Button>
+                                        <Button slot="close" variant="danger" className="rounded-none">
+                                            Delete Project
+                                        </Button>
+                                    </AlertDialog.Footer>
+                                </AlertDialog.Dialog>
+                            </AlertDialog.Container>
+                        </AlertDialog.Backdrop>
+                    </AlertDialog>
                 </div>
             </div>
 
             {/* Hero Image */}
-            <div className="max-w-6xl mx-auto h-[420px] overflow-hidden">
+            <div className="max-w-6xl mx-auto h-[220px] sm:h-[320px] lg:h-[420px] overflow-hidden px-4 sm:px-0">
                 <img
                     src={imageUrl}
                     alt={destinationName}
@@ -53,7 +81,7 @@ const DestinationDetailsPage = async ({ params }) => {
             </div>
 
             {/* Body */}
-            <div className="max-w-6xl mx-auto px-6 sm:px-10 py-10 flex flex-col lg:flex-row gap-10">
+            <div className="max-w-6xl mx-auto px-4 sm:px-10 py-8 flex flex-col lg:flex-row gap-8 lg:gap-10">
 
                 {/* Left Content */}
                 <div className="flex-1">
@@ -64,12 +92,12 @@ const DestinationDetailsPage = async ({ params }) => {
                     </div>
 
                     {/* Title */}
-                    <h1 className="text-4xl sm:text-5xl font-light text-gray-900 mb-4">
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
                         {destinationName}
                     </h1>
 
                     {/* Meta */}
-                    <div className="flex items-center gap-5 text-sm text-gray-500 mb-8">
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-8">
                         <div className="flex items-center gap-1.5">
                             <FaStar className="text-yellow-400" />
                             <span className="font-semibold text-gray-800">4.9</span>
@@ -83,14 +111,14 @@ const DestinationDetailsPage = async ({ params }) => {
 
                     {/* Overview */}
                     <div className="mb-8">
-                        <h2 className="text-2xl font-light text-gray-900 mb-3">Overview</h2>
+                        <h2 className="text-xl sm:text-2xl font-light text-gray-900 mb-3">Overview</h2>
                         <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
                     </div>
 
                     {/* Highlights */}
                     {highlights?.length > 0 && (
                         <div>
-                            <h2 className="text-2xl font-light text-gray-900 mb-3">Highlights</h2>
+                            <h2 className="text-xl sm:text-2xl font-light text-gray-900 mb-3">Highlights</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 {highlights.map((item, i) => (
                                     <div key={i} className="flex items-center gap-2 text-sm text-gray-600">
@@ -105,9 +133,9 @@ const DestinationDetailsPage = async ({ params }) => {
 
                 {/* Right — Booking Card */}
                 <div className="w-full lg:w-80 shrink-0">
-                    <div className="border border-gray-200 rounded-xl p-6 sticky top-6">
+                    <div className="border border-gray-200 rounded-xl p-5 sm:p-6 lg:sticky lg:top-6">
                         <p className="text-gray-400 text-sm mb-1">Starting from</p>
-                        <p className="text-cyan-500 text-4xl font-bold mb-1">
+                        <p className="text-cyan-500 text-3xl sm:text-4xl font-bold mb-1">
                             ${Number(price).toLocaleString()}
                         </p>
                         <p className="text-gray-400 text-sm mb-6">per person</p>
