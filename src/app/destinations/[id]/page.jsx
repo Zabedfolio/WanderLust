@@ -5,6 +5,7 @@ import { FaStar } from 'react-icons/fa';
 import { BsCheckCircle } from 'react-icons/bs';
 import { EditModalForm } from '@/components/EditModal';
 import { AlertDialog, Button } from '@heroui/react';
+import { DeleteAlertDialog } from '@/components/DeleteAlertDialog';
 
 const DestinationDetailsPage = async ({ params }) => {
     const { id } = await params;
@@ -13,6 +14,7 @@ const DestinationDetailsPage = async ({ params }) => {
     const destination = await res.json();
 
     const {
+        _id,
         destinationName,
         country,
         price,
@@ -23,6 +25,8 @@ const DestinationDetailsPage = async ({ params }) => {
         category,
         highlights,
     } = destination;
+
+    
 
     return (
         <div className="min-h-screen bg-white">
@@ -37,37 +41,8 @@ const DestinationDetailsPage = async ({ params }) => {
                 </Link>
                 <div className="flex items-center gap-2">
                     <EditModalForm destination={destination} />
-                    <AlertDialog>
-                        <Button variant="danger" className="rounded flex items-center gap-2">
-                            <FiTrash2 />
-                            <span className="hidden sm:inline">Delete</span>
-                        </Button>
-                        <AlertDialog.Backdrop>
-                            <AlertDialog.Container>
-                                <AlertDialog.Dialog className="sm:max-w-[400px] rounded-none">
-                                    <AlertDialog.CloseTrigger />
-                                    <AlertDialog.Header>
-                                        <AlertDialog.Icon status="danger" />
-                                        <AlertDialog.Heading>Delete permanently?</AlertDialog.Heading>
-                                    </AlertDialog.Header>
-                                    <AlertDialog.Body>
-                                        <p>
-                                            This will permanently delete <strong>{destinationName}</strong> and all of its
-                                            data. This action cannot be undone.
-                                        </p>
-                                    </AlertDialog.Body>
-                                    <AlertDialog.Footer>
-                                        <Button slot="close" variant="tertiary" className="rounded-none">
-                                            Cancel
-                                        </Button>
-                                        <Button slot="close" variant="danger" className="rounded-none">
-                                            Delete Project
-                                        </Button>
-                                    </AlertDialog.Footer>
-                                </AlertDialog.Dialog>
-                            </AlertDialog.Container>
-                        </AlertDialog.Backdrop>
-                    </AlertDialog>
+                    <DeleteAlertDialog destination={destination} />
+                    
                 </div>
             </div>
 

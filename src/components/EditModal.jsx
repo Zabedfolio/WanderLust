@@ -57,12 +57,14 @@ export function EditModalForm({ destination }) {
             {/* Trigger Button */}
             <button
                 onClick={() => setIsOpen(true)}
-                className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-3.5 rounded text-sm transition-colors"
+                className="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 
+               px-3 py-2 sm:px-4 sm:py-3 
+               w-9 h-9 sm:w-auto sm:h-auto 
+               rounded text-sm transition-colors"
             >
-                <FiEdit2 className="text-sm" />
+                <FiEdit2 className="text-base shrink-0" />
                 <span className="hidden sm:inline">Edit</span>
             </button>
-
             {/* Modal Overlay */}
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
