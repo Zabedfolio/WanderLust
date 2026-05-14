@@ -1,9 +1,10 @@
 import React from 'react';
 import { FiMapPin, FiCalendar, FiArrowUpRight } from 'react-icons/fi';
 import { FaStar } from 'react-icons/fa';
+import Link from 'next/link';
 
 const DestinationCard = ({ destination }) => {
-    const { destinationName, country, price, duration, imageUrl, category } = destination;
+    const { _id, destinationName, country, price, duration, imageUrl, category } = destination;
 
     return (
         <div className="group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
@@ -50,10 +51,12 @@ const DestinationCard = ({ destination }) => {
                 </div>
 
                 {/* Book Now */}
-                <button className="flex items-center gap-1.5 text-cyan-600 hover:text-cyan-700 font-semibold text-sm transition-colors group/btn">
+                <Link href={`/destinations/${_id}`}>
+                    <button className="flex items-center gap-1.5 text-cyan-600 hover:text-cyan-700 font-semibold text-sm transition-colors group/btn">
                     BOOK NOW
                     <FiArrowUpRight className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                </button>
+                </button>                
+                </Link>
             </div>
         </div>
     );
