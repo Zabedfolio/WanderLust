@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { FiArrowLeft, FiEdit2, FiTrash2, FiMapPin, FiCalendar } from 'react-icons/fi';
 import { FaStar } from 'react-icons/fa';
 import { BsCheckCircle } from 'react-icons/bs';
+import { EditModalForm } from '@/components/EditModal';
 
 const DestinationDetailsPage = async ({ params }) => {
     const { id } = await params;
@@ -34,10 +35,7 @@ const DestinationDetailsPage = async ({ params }) => {
                     Back to Destinations
                 </Link>
                 <div className="flex items-center gap-3">
-                    <button className="flex items-center gap-2 border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded text-sm transition-colors">
-                        <FiEdit2 className="text-sm" />
-                        Edit
-                    </button>
+                    <EditModalForm></EditModalForm>
                     <button className="flex items-center gap-2 border border-red-300 text-red-500 hover:bg-red-50 px-4 py-2 rounded text-sm transition-colors">
                         <FiTrash2 className="text-sm" />
                         Cancel
