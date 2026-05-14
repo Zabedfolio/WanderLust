@@ -39,6 +39,13 @@ export default function LoginPage() {
     }
   };
 
+  const handleSocialSignUp = async (provider) => {
+    await authClient.signIn.social({ 
+        provider,
+        callbackURL: '/'
+    })
+}
+
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md bg-white border border-slate-200 shadow-xl shadow-slate-200/50 p-8 sm:p-10">
@@ -120,7 +127,7 @@ export default function LoginPage() {
           <span className="h-px flex-1 bg-slate-200"></span>
         </div>
 
-        <button
+        <button onClick={()=>handleSocialSignUp('google')}
           type="button"
           className="flex w-full items-center justify-center gap-3 border border-slate-200 bg-white px-4 py-3 text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
         >
