@@ -213,7 +213,6 @@ This project is private and proprietary.
 
 <div align="center">
 
-**Built with ❤️ using Next.js & Tailwind CSS**
 
 [⬆️ Back to Top](#-wanderlust)
 
