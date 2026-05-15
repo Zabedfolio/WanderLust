@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
-import { FiArrowLeft, FiTrash2, FiMapPin, FiCalendar } from 'react-icons/fi';
+import { FiArrowLeft, FiMapPin, FiCalendar } from 'react-icons/fi';
 import { FaStar } from 'react-icons/fa';
 import { BsCheckCircle } from 'react-icons/bs';
 import { EditModalForm } from '@/components/EditModal';
-import { AlertDialog, Button } from '@heroui/react';
 import { DeleteAlertDialog } from '@/components/DeleteAlertDialog';
+import BookingCard from '@/components/BookingCard';
 
 const DestinationDetailsPage = async ({ params }) => {
     const { id } = await params;
@@ -107,39 +107,7 @@ const DestinationDetailsPage = async ({ params }) => {
                 </div>
 
                 {/* Right — Booking Card */}
-                <div className="w-full lg:w-80 shrink-0">
-                    <div className="border border-gray-200 rounded-xl p-5 sm:p-6 lg:sticky lg:top-6">
-                        <p className="text-gray-400 text-sm mb-1">Starting from</p>
-                        <p className="text-cyan-500 text-3xl sm:text-4xl font-bold mb-1">
-                            ${Number(price).toLocaleString()}
-                        </p>
-                        <p className="text-gray-400 text-sm mb-6">per person</p>
-
-                        {/* Date */}
-                        <div className="border border-gray-200 rounded px-4 py-3 text-sm text-gray-600 mb-4">
-                            {departureDate}
-                        </div>
-
-                        {/* Book Button */}
-                        <button className="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-3 rounded text-sm font-medium flex items-center justify-center gap-2 transition-colors mb-5">
-                            Book Now →
-                        </button>
-
-                        {/* Perks */}
-                        <div className="space-y-2.5">
-                            {[
-                                'Free cancellation up to 7 days',
-                                'Travel insurance included',
-                                '24/7 customer support',
-                            ].map((perk, i) => (
-                                <div key={i} className="flex items-center gap-2 text-sm text-gray-500">
-                                    <BsCheckCircle className="text-cyan-500 shrink-0" />
-                                    {perk}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+                <BookingCard destination={destination}></BookingCard>
             </div>
         </div>
     );
