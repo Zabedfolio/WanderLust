@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { CalendarDate } from '@internationalized/date';
 import { BsCheckCircle } from 'react-icons/bs';
 import { authClient } from '@/lib/auth-client';
+import toast from 'react-hot-toast';
 
 
 
@@ -40,7 +41,8 @@ const BookingCard = ({ destination }) => {
         body: JSON.stringify(bookingData)
     })
     const data = await res.json();
-    console.log(data);
+    toast.success(`You booked ${destination.destinationName},${destination.country} successfully!`)
+    // console.log(data);
   };
 
 
