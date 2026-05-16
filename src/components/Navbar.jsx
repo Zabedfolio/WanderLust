@@ -9,7 +9,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
-  const { data: session, isPending } = authClient.useSession();
+  const { data: session } = authClient.useSession();
   const user = session?.user;
 
   const handleLogout = async () => {
@@ -21,8 +21,6 @@ const Navbar = () => {
       },
     });
   };
-
-  if (isPending) return null; // or a skeleton loader
 
   return (
     <nav className="relative bg-white">
@@ -51,7 +49,7 @@ const Navbar = () => {
         </button>
 
         {/* Logo — always centered */}
-        <div className="absolute left-1/2 -translate-x-1/2">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
           <Image alt="nav-img" src="/assets/Wanderlast.png" width={162} height={24} />
         </div>
 

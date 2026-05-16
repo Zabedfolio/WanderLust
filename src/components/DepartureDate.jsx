@@ -2,10 +2,10 @@
 
 import {Calendar, DateField, DatePicker, Label} from "@heroui/react";
 
-const DepartureDate = () => {
+const DepartureDate = ({ departureDate, setDepartureDate }) => {
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-3 shadow-sm">
-      <DatePicker className="w-full" name="date">
+      <DatePicker className="w-full" name="date" value={departureDate} onChange={setDepartureDate}>
         <Label className="text-sm font-medium text-gray-500">Departure date</Label>
         <DateField.Group fullWidth className="mt-2 rounded-xl border border-gray-200 bg-slate-50">
           <DateField.Input className="w-full text-sm text-gray-700">
