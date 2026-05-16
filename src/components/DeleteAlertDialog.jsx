@@ -20,7 +20,7 @@ export function DeleteAlertDialog({ destination }) {
     };
 
     return (
-        <AlertDialog>
+        <AlertDialog className="rounded-none">
             {/* Trigger — no onClick here, AlertDialog handles opening */}
             <Button variant="danger" className="rounded flex items-center gap-2">
                 <FiTrash2 />

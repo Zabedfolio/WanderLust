@@ -1,3 +1,4 @@
+import { BookingDeleteAlert } from '@/components/BookingDeleteAlert';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import React from 'react';
@@ -25,7 +26,7 @@ const MyBookingPage = async () => {
             });
 
             return (
-              <div key={booking._id} className="bg-white rounded-2xl overflow-hidden flex flex-col sm:flex-row shadow-sm">
+              <div key={booking._id} className="bg-white overflow-hidden flex flex-col sm:flex-row shadow-sm">
 
                 {/* Image — flush, no rounding */}
                 <img
@@ -68,10 +69,8 @@ const MyBookingPage = async () => {
 
                   {/* Buttons */}
                   <div className="flex gap-3 mt-6">
-                    <button className="px-7 py-2.5 border-2 border-red-400 text-red-500 font-bold text-sm rounded-xl hover:bg-red-50 transition-colors">
-                      Cancel
-                    </button>
-                    <button className="px-7 py-2.5 bg-cyan-500 text-white font-bold text-sm rounded-xl hover:bg-cyan-600 transition-colors">
+                    <BookingDeleteAlert></BookingDeleteAlert>
+                    <button className="px-7 py-2 bg-cyan-500 text-white font-bold text-sm hover:bg-cyan-600 transition-colors">
                       View
                     </button>
                   </div>
