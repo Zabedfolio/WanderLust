@@ -3,7 +3,22 @@
 import {AlertDialog, Button} from "@heroui/react";
 import { Trash2 } from "lucide-react";
 
-export function BookingDeleteAlert() {
+export function BookingDeleteAlert({dataId}) {
+
+
+    const handleCancelBooking= async() => {
+        const res = await fetch(`http://localhost:5000/booking/${dataId}`,{
+            method: 'DELETE',
+            headers: {
+                "content-type": 'application/json'
+            }
+        })
+
+        const data = await res.json();
+        // console.log(data)
+        window.location.reload()
+    }
+
   return (
     <AlertDialog className="rounded-none">
       <Button variant="danger" className="rounded-none"><Trash2></Trash2>Cancel</Button>
@@ -15,17 +30,11 @@ export function BookingDeleteAlert() {
               <AlertDialog.Icon status="danger" className="rounded-none" />
               <AlertDialog.Heading>Cancel booking permanently?</AlertDialog.Heading>
             </AlertDialog.Header>
-            <AlertDialog.Body>
-              <p>
-                This will permanently delete <strong>My Awesome Project</strong> and all of its
-                data. This action cannot be undone.
-              </p>
-            </AlertDialog.Body>
             <AlertDialog.Footer>
               <Button slot="close" variant="tertiary" className="rounded-none">
                 I don't want to cancel
               </Button>
-              <Button slot="close" variant="danger" className="rounded-none">
+              <Button onClick={handleCancelBooking} slot="close" variant="danger" className="rounded-none">
                 Cancel Booking
               </Button>
             </AlertDialog.Footer>
