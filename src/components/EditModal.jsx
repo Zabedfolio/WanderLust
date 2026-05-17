@@ -34,23 +34,24 @@ export function EditModalForm({ destination }) {
         setHighlightsList((prev) => prev.map((h, i) => (i === index ? value : h)));
 
     const onSubmit = async (e) => {
-        e.preventDefault();
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const updatedDestination = Object.fromEntries(formData.entries());
+    updatedDestination.highlights = highlightsList.filter((h) => h.trim() !== "");
 
-        const formData = new FormData(e.currentTarget);
-        const updatedDestination = Object.fromEntries(formData.entries());
-        updatedDestination.highlights = highlightsList.filter((h) => h.trim() !== "");
-        console.log(updatedDestination);
+    const { data: tokenData } = await authClient.token(); // ← add this
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${_id}`, {
-            method: "PATCH",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify(updatedDestination),
-        });
-        const data = await res.json();
-        console.log(data);
-
-        setIsOpen(false);
-    };
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${_id}`, {
+        method: "PATCH",
+        headers: {
+            "content-type": "application/json",
+            authorization: `Bearer ${tokenData?.token}` // ← add this
+        },
+        body: JSON.stringify(updatedDestination),
+    });
+    const data = await res.json();
+    setIsOpen(false);
+};
 
     return (
         <>
