@@ -23,16 +23,8 @@ const FilterDropdown = ({ label, options }) => (
 );
 
 const DestinationPage = async () => {
-    let destinations = [];
-    
-    try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination`);
-        if (res.ok) {
-            destinations = await res.json();
-        }
-    } catch (err) {
-        console.error('Failed to fetch destinations:', err);
-    }
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination`);
+    const destinations = await res.json();
 
     return (
         <div className="min-h-screen bg-white px-6 sm:px-10 py-12">
