@@ -1,6 +1,6 @@
 import React from 'react';
 import { FiChevronDown } from 'react-icons/fi';
-import DestinationCard from '@/components/DestinationCard'; // adjust path as needed
+import DestinationCard from '@/components/DestinationCard';
 export const dynamic = 'force-dynamic';
 
 const CATEGORIES = ["Beach", "Mountain", "City", "Adventure", "Cultural", "Luxury"];
@@ -23,14 +23,17 @@ const FilterDropdown = ({ label, options }) => (
 );
 
 const DestinationPage = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination`);
-    const destinations = await res.json();
+    let destinations = [];
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination`);
+        if (res.ok) destinations = await res.json();
+    } catch (err) {
+        console.error('Failed to fetch destinations:', err);
+    }
 
     return (
         <div className="min-h-screen bg-white px-6 sm:px-10 py-12">
             <div className="max-w-6xl mx-auto">
-
-                {/* Header */}
                 <div className="mb-10">
                     <h1 className="text-4xl sm:text-5xl font-light text-gray-900 mb-2">
                         Explore All Destinations
@@ -39,8 +42,6 @@ const DestinationPage = async () => {
                         Find your perfect travel experience from our curated collection
                     </p>
                 </div>
-
-                {/* Filters */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 border border-gray-200 mb-6">
                     <div className="border-b sm:border-b-0 sm:border-r border-gray-200">
                         <FilterDropdown label="Category" options={CATEGORIES} />
@@ -52,13 +53,9 @@ const DestinationPage = async () => {
                         <FilterDropdown label="Sort By" options={SORT_OPTIONS} />
                     </div>
                 </div>
-
-                {/* Count */}
                 <p className="text-gray-400 text-sm mb-8">
                     Showing {destinations.length} destination{destinations.length !== 1 ? 's' : ''}
                 </p>
-
-                {/* Cards Grid */}
                 {destinations.length === 0 ? (
                     <div className="text-center py-24 text-gray-400">
                         <p className="text-lg">No destinations found.</p>
