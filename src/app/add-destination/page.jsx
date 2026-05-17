@@ -18,25 +18,26 @@ const AddDestinationPage = () => {
         setHighlights((prev) => prev.map((h, i) => (i === index ? value : h)));
 
     const onSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const destination = Object.fromEntries(formData.entries());
-    destination.highlights = highlights.filter((h) => h.trim() !== "");
+        e.preventDefault();
 
-    const { data: tokenData } = await authClient.token(); // ← add this
+        const formData = new FormData(e.currentTarget);
+        const destination = Object.fromEntries(formData.entries());
+        destination.highlights = highlights.filter((h) => h.trim() !== "");
+        console.log(destination);
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination`, {
-        method: "POST",
-        headers: {
-            "content-type": "application/json",
-            authorization: `Bearer ${tokenData?.token}` // ← add this
-        },
-        body: JSON.stringify(destination),
-    });
-    const data = await res.json();
-    setHighlights([""]);
-    setFormKey((prev) => prev + 1);
-};
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(destination),
+        });
+        const data = await res.json();
+        console.log(data);
+
+        setHighlights([""]);
+        setFormKey((prev) => prev + 1);
+    };
 
     return (
         <div className="min-h-screen bg-white py-10 px-6 sm:px-10">
