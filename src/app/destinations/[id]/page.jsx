@@ -6,11 +6,22 @@ import { BsCheckCircle } from 'react-icons/bs';
 import { EditModalForm } from '@/components/EditModal';
 import { DeleteAlertDialog } from '@/components/DeleteAlertDialog';
 import BookingCard from '@/components/BookingCard';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 
 const DestinationDetailsPage = async ({ params }) => {
     const { id } = await params;
+    const {token} = await auth.api.getToken({
+        headers: await headers()
 
-    const res = await fetch(`http://localhost:5000/destination/${id}`);
+    })
+    // console.log(token)
+
+    const res = await fetch(`http://localhost:5000/destination/${id}`,{
+        headers:{
+            authorization:`Bearer ${token}`
+        }
+    });
     const destination = await res.json();
 
     const {
