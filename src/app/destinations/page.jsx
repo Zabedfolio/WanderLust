@@ -1,6 +1,7 @@
 import React from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import DestinationCard from '@/components/DestinationCard'; // adjust path as needed
+export const dynamic = 'force-dynamic';
 
 const CATEGORIES = ["Beach", "Mountain", "City", "Adventure", "Cultural", "Luxury"];
 const PRICE_RANGES = ["Under $500", "$500 - $1000", "$1000 - $2000", "$2000+"];
@@ -22,8 +23,16 @@ const FilterDropdown = ({ label, options }) => (
 );
 
 const DestinationPage = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination`);
-    const destinations = await res.json();
+    let destinations = [];
+    
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination`);
+        if (res.ok) {
+            destinations = await res.json();
+        }
+    } catch (err) {
+        console.error('Failed to fetch destinations:', err);
+    }
 
     return (
         <div className="min-h-screen bg-white px-6 sm:px-10 py-12">
